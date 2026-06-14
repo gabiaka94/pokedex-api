@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getPokemon } from '../services/pokemon.service';
+import { getPokemon, getTranslatedPokemon } from '../services/pokemon.service';
 
 export async function getPokemonHandler(
   req: Request,
@@ -7,8 +7,22 @@ export async function getPokemonHandler(
   next: NextFunction,
 ): Promise<void> {
   try {
-    const name = req.params.name as string;
+    const name = (req.params.name as string).trim();
     const pokemon = await getPokemon(name);
+    res.json(pokemon);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getTranslatedPokemonHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  try {
+    const name = (req.params.name as string).trim();
+    const pokemon = await getTranslatedPokemon(name);
     res.json(pokemon);
   } catch (error) {
     next(error);

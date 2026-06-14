@@ -30,8 +30,7 @@ describe('Translation Client', () => {
 
     expect(mockedAxios.post).toHaveBeenCalledWith(
       expect.stringContaining('/translate/shakespeare'),
-      null,
-      { params: { text: 'hello' } },
+      { text: 'hello' },
     );
   });
 
@@ -44,8 +43,7 @@ describe('Translation Client', () => {
 
     expect(mockedAxios.post).toHaveBeenCalledWith(
       expect.stringContaining('/translate/yoda'),
-      null,
-      { params: { text: 'hello' } },
+      { text: 'hello' },
     );
   });
 

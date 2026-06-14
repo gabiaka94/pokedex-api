@@ -59,6 +59,47 @@ describe('GET /pokemon/:name', () => {
   });
 });
 
+describe('GET /pokemon/translated/:name', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return translated description for legendary pokemon (yoda)', async () => {
+    mockedAxios.get.mockResolvedValue({ data: mockMewtwo });
+    mockedAxios.post.mockResolvedValue({
+      data: { contents: { translated: 'Created by a scientist, it was.' } },
+    });
+
+    const res = await request(app).get('/pokemon/translated/mewtwo');
+
+    expect(res.status).toBe(200);
+    expect(res.body.description).toBe('Created by a scientist, it was.');
+    expect(res.body.name).toBe('mewtwo');
+  });
+
+  it('should fallback to standard description when translation fails', async () => {
+    mockedAxios.get.mockResolvedValue({ data: mockMewtwo });
+    mockedAxios.post.mockRejectedValue({ response: { status: 429 }, isAxiosError: true });
+    mockedAxios.isAxiosError.mockReturnValue(true);
+
+    const res = await request(app).get('/pokemon/translated/mewtwo');
+
+    expect(res.status).toBe(200);
+    expect(res.body.description).toBe(
+      'It was created by a scientist after years of horrific gene splicing.',
+    );
+  });
+
+  it('should return 404 for unknown pokemon', async () => {
+    mockedAxios.get.mockRejectedValue({ response: { status: 404 }, isAxiosError: true });
+    mockedAxios.isAxiosError.mockReturnValue(true);
+
+    const res = await request(app).get('/pokemon/translated/notapokemon');
+
+    expect(res.status).toBe(404);
+  });
+});
+
 describe('GET /health', () => {
   it('should return ok', async () => {
     const res = await request(app).get('/health');

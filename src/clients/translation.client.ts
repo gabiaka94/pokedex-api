@@ -15,9 +15,7 @@ export async function translate(text: string, type: TranslationType): Promise<st
   const start = Date.now();
 
   try {
-    const { data } = await axios.post<TranslationApiResponse>(url, null, {
-      params: { text },
-    });
+    const { data } = await axios.post<TranslationApiResponse>(url, { text });
     const duration = Date.now() - start;
     logger.info(`Translation API call`, { type, durationMs: duration });
 
@@ -25,10 +23,13 @@ export async function translate(text: string, type: TranslationType): Promise<st
   } catch (error) {
     const duration = Date.now() - start;
 
+    const message = (error as Error).message;
+
     if (axios.isAxiosError(error) && error.response?.status === 429) {
       logger.warn('Translation API rate limit hit, falling back to standard description', {
         type,
         durationMs: duration,
+        message,
       });
       return null;
     }
@@ -36,7 +37,7 @@ export async function translate(text: string, type: TranslationType): Promise<st
     logger.warn('Translation API error, falling back to standard description', {
       type,
       durationMs: duration,
-      message: (error as Error).message,
+      message,
     });
     return null;
   }

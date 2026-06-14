@@ -47,6 +47,40 @@ const options: swaggerJsdoc.Options = {
           },
         },
       },
+      '/pokemon/translated/{name}': {
+        get: {
+          summary: 'Get Pokemon with translated description',
+          description:
+            'Returns Pokemon info with a fun translation. Cave or legendary Pokemon get Yoda translation, others get Shakespeare. Falls back to standard description if translation fails.',
+          parameters: [
+            {
+              name: 'name',
+              in: 'path',
+              required: true,
+              schema: { type: 'string' },
+              example: 'mewtwo',
+            },
+          ],
+          responses: {
+            '200': {
+              description: 'Pokemon information with translated description',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/PokemonInfo',
+                  },
+                },
+              },
+            },
+            '404': {
+              description: 'Pokemon not found',
+            },
+            '502': {
+              description: 'External API error',
+            },
+          },
+        },
+      },
     },
     components: {
       schemas: {
