@@ -18,7 +18,10 @@ type PokeApiSpeciesResponse = {
 };
 
 function cleanFlavorText(text: string): string {
-  return text.replace(/[\n\f\r]/g, ' ').replace(/\s+/g, ' ').trim();
+  return text
+    .replace(/[\n\f\r]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function extractEnglishDescription(name: string, entries: PokeApiFlavorTextEntry[]): string {

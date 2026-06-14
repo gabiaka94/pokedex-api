@@ -3,4 +3,4 @@ export type PokemonInfo = {
   description: string;
   habitat: string | null;
   isLegendary: boolean;
-}
+};
