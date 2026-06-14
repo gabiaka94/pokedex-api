@@ -17,6 +17,11 @@ function getTranslationType(pokemon: PokemonInfo): TranslationType {
 
 export async function getTranslatedPokemon(name: string): Promise<PokemonInfo> {
   const pokemon = await getPokemonSpecies(name);
+
+  if (!pokemon.description) {
+    return pokemon;
+  }
+
   const translationType = getTranslationType(pokemon);
   const translatedDescription = await translate(pokemon.description, translationType);
 

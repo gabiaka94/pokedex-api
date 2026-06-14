@@ -82,6 +82,15 @@ describe('getTranslatedPokemon', () => {
     expect(result.description).toBe('Translated text here.');
   });
 
+  it('should skip translation when description is empty', async () => {
+    mockedGetPokemonSpecies.mockResolvedValue({ ...basePokemon, description: '' });
+
+    const result = await getTranslatedPokemon('pikachu');
+
+    expect(mockedTranslate).not.toHaveBeenCalled();
+    expect(result.description).toBe('');
+  });
+
   it('should preserve other fields when translating', async () => {
     mockedGetPokemonSpecies.mockResolvedValue(basePokemon);
     mockedTranslate.mockResolvedValue('Translated.');
