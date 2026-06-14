@@ -37,7 +37,7 @@ export async function getPokemonSpecies(name: string): Promise<PokemonInfo> {
   try {
     const { data } = await axios.get<PokeApiSpeciesResponse>(url);
     const duration = Date.now() - start;
-    logger.info(`PokéAPI call`, { url, durationMs: duration });
+    logger.info('PokéAPI call', { url, durationMs: duration });
 
     return {
       name: data.name,
@@ -49,11 +49,11 @@ export async function getPokemonSpecies(name: string): Promise<PokemonInfo> {
     const duration = Date.now() - start;
 
     if (axios.isAxiosError(error) && error.response?.status === 404) {
-      logger.warn(`Pokemon not found`, { name, durationMs: duration });
+      logger.warn('Pokemon not found', { name, durationMs: duration });
       throw new PokemonNotFoundError(name);
     }
 
-    logger.error(`PokéAPI error`, { url, durationMs: duration, message: (error as Error).message });
+    logger.error('PokéAPI error', { url, durationMs: duration, message: (error as Error).message });
     throw new ExternalApiError('PokéAPI', error as Error);
   }
 }

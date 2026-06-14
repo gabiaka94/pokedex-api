@@ -7,7 +7,7 @@ export async function getPokemonHandler(
   next: NextFunction,
 ): Promise<void> {
   try {
-    const name = (req.params.name as string).trim();
+    const name = (req.params.name as string);
     const pokemon = await getPokemon(name);
     res.json(pokemon);
   } catch (error) {
@@ -21,7 +21,7 @@ export async function getTranslatedPokemonHandler(
   next: NextFunction,
 ): Promise<void> {
   try {
-    const name = (req.params.name as string).trim();
+    const name = (req.params.name as string);
     const pokemon = await getTranslatedPokemon(name);
     res.json(pokemon);
   } catch (error) {

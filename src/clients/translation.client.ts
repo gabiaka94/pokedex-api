@@ -17,7 +17,7 @@ export async function translate(text: string, type: TranslationType): Promise<st
   try {
     const { data } = await axios.post<TranslationApiResponse>(url, { text });
     const duration = Date.now() - start;
-    logger.info(`Translation API call`, { type, durationMs: duration });
+    logger.info('Translation API call', { type, durationMs: duration });
 
     return data.contents.translated;
   } catch (error) {
