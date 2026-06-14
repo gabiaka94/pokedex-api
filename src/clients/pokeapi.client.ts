@@ -31,7 +31,7 @@ function extractEnglishDescription(name: string, entries: PokeApiFlavorTextEntry
 }
 
 export async function getPokemonSpecies(name: string): Promise<PokemonInfo> {
-  const url = `${config.pokeApiBaseUrl}/pokemon-species/${name.toLowerCase()}`;
+  const url = `${config.pokeApiBaseUrl}/pokemon-species/${name.toLowerCase().trim()}`;
   const start = Date.now();
 
   try {

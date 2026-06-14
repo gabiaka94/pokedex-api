@@ -60,6 +60,16 @@ describe('PokéAPI Client', () => {
     );
   });
 
+  it('should trim whitespace from the pokemon name', async () => {
+    mockedAxios.get.mockResolvedValue({ data: mockSpeciesResponse });
+
+    await getPokemonSpecies(' mewtwo ');
+
+    expect(mockedAxios.get).toHaveBeenCalledWith(
+      expect.stringContaining('/pokemon-species/mewtwo'),
+    );
+   })
+
   it('should throw PokemonNotFoundError on 404', async () => {
     mockedAxios.get.mockRejectedValue({
       response: { status: 404 },
