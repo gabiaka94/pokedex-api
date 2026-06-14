@@ -1,7 +1,7 @@
 import app from './app';
+import { config } from './config';
+import { logger } from './utils/logger';
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Pokedex API running on port ${PORT}`);
+app.listen(config.port, () => {
+  logger.info(`Pokedex API running on port ${config.port}`);
 });
